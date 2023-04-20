@@ -7,10 +7,22 @@ const depth = 0.1;
 const whiteColor = "0xfefefe";
 const darkColor = "#262D35";
 const lightBlue = "#0CA8E2";
-const lightBlue2 = "#0094D8";
+const lightBlueDarker = "#0094D8";
 const darkBlue = "#026FB4";
 
 const card = new THREE.Group();
+
+//Reusable materials
+const whiteMaterial = new THREE.MeshPhongMaterial({ color: whiteColor });
+const darkMaterial = new THREE.MeshPhongMaterial({ color: darkColor });
+const lightBlueMaterial = new THREE.MeshPhongMaterial({ color: lightBlue });
+const darkBlueMaterial = new THREE.MeshPhongMaterial({ color: darkBlue });
+const lightBlueDarkerMaterial = new THREE.MeshPhongMaterial({
+  color: lightBlueDarker,
+});
+const blackMaterial = new THREE.MeshPhongMaterial({
+  color: "black",
+});
 
 export function createBusinessCard() {
   // firstCardRender(card);
@@ -66,10 +78,9 @@ function createLeftSideOfCard() {
   const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
   // Create material with a different color
-  const material = new THREE.MeshPhongMaterial({ color: whiteColor });
 
   // Create mesh
-  const mesh = new THREE.Mesh(geometry, material);
+  const mesh = new THREE.Mesh(geometry, whiteMaterial);
 
   return mesh;
 }
@@ -162,23 +173,17 @@ function createMiddleOfCard() {
 
   const topGeomtry = new THREE.ExtrudeGeometry(topShape, extrudeSettings);
 
-  // Create material with a different color
-  const lightMaterial = new THREE.MeshPhongMaterial({ color: lightBlue });
-  const darkMaterial = new THREE.MeshPhongMaterial({ color: darkBlue });
-  const whiteMaterial = new THREE.MeshPhongMaterial({ color: whiteColor }); //temp until I get the actual right left colors
-  const lightBlue2Material = new THREE.MeshPhongMaterial({ color: lightBlue2 }); //temp until I get the actual right left colors
-
   // Create mesh
 
-  const bottomMesh = new THREE.Mesh(bottomGeometry, darkMaterial);
+  const bottomMesh = new THREE.Mesh(bottomGeometry, darkBlueMaterial);
   // const middleMesh = new THREE.Mesh(middleGeomtry, lightMaterial);
-  const middleLeftMesh = new THREE.Mesh(middleLeftGeomtry, lightMaterial);
+  const middleLeftMesh = new THREE.Mesh(middleLeftGeomtry, lightBlueMaterial);
   const middleRightMesh = new THREE.Mesh(
     middleRightGeomtry,
-    lightBlue2Material
+    lightBlueDarkerMaterial
   );
 
-  const topMesh = new THREE.Mesh(topGeomtry, darkMaterial);
+  const topMesh = new THREE.Mesh(topGeomtry, darkBlueMaterial);
   return [bottomMesh, middleLeftMesh, middleRightMesh, topMesh];
 }
 
@@ -204,11 +209,8 @@ function createRightSideOfCard() {
   // Create ExtrudeGeometry from the shape
   const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
-  // Create material with a different color
-  const material = new THREE.MeshPhongMaterial({ color: darkColor });
-
   // Create mesh
-  const mesh = new THREE.Mesh(geometry, material);
+  const mesh = new THREE.Mesh(geometry, darkMaterial);
 
   return mesh;
 }
@@ -265,12 +267,10 @@ function createCardTextAndLogo() {
         5
       );
       const companyNameGeometry = new THREE.ShapeGeometry(companyNameShapes);
-      const companyNameMaterial = new THREE.MeshPhongMaterial({
-        color: 0x000000,
-      });
+
       const companyNameMesh = new THREE.Mesh(
         companyNameGeometry,
-        companyNameMaterial
+        blackMaterial
       );
       companyNameMesh.position.set(
         -cardWidth * 0.46,
@@ -287,7 +287,7 @@ function createCardTextAndLogo() {
       );
       const sloganGeometry = new THREE.ShapeGeometry(sloganShape);
 
-      const sloganMesh = new THREE.Mesh(sloganGeometry, companyNameMaterial);
+      const sloganMesh = new THREE.Mesh(sloganGeometry, blackMaterial);
       sloganMesh.position.set(
         -cardWidth * 0.49,
         companyNameY - 1,
@@ -302,13 +302,8 @@ function createCardTextAndLogo() {
         5
       );
       const firstNameGeometry = new THREE.ShapeGeometry(firstNameShapes);
-      const firstNameMaterial = new THREE.MeshPhongMaterial({
-        color: whiteColor,
-      });
-      const firstNameMesh = new THREE.Mesh(
-        firstNameGeometry,
-        firstNameMaterial
-      );
+
+      const firstNameMesh = new THREE.Mesh(firstNameGeometry, whiteMaterial);
       firstNameMesh.position.set(1, 0.9, depth + 0.01);
       card.add(firstNameMesh);
 
@@ -319,10 +314,11 @@ function createCardTextAndLogo() {
         5
       );
       const lastNameGeometry = new THREE.ShapeGeometry(lastNameShapes);
-      const lastNameMaterial = new THREE.MeshPhongMaterial({
-        color: lightBlue2,
-      });
-      const lastNameMesh = new THREE.Mesh(lastNameGeometry, lastNameMaterial);
+
+      const lastNameMesh = new THREE.Mesh(
+        lastNameGeometry,
+        lightBlueDarkerMaterial
+      );
 
       // Adjust the position based on the width of the first word
       let firstNameWidth = 0;
@@ -343,10 +339,8 @@ function createCardTextAndLogo() {
         5
       );
       const title1Geometry = new THREE.ShapeGeometry(title1Shapes);
-      const title1Material = new THREE.MeshPhongMaterial({
-        color: whiteColor,
-      });
-      const title1Mesh = new THREE.Mesh(title1Geometry, title1Material);
+
+      const title1Mesh = new THREE.Mesh(title1Geometry, whiteMaterial);
       title1Mesh.position.set(1.3, 0.4, depth + 0.01);
       card.add(title1Mesh);
 
@@ -364,10 +358,8 @@ function createCardTextAndLogo() {
         5
       );
       const emailGeomtry = new THREE.ShapeGeometry(emailShape);
-      const emailMaterial = new THREE.MeshPhongMaterial({
-        color: whiteColor,
-      });
-      const emailMesh = new THREE.Mesh(emailGeomtry, emailMaterial);
+
+      const emailMesh = new THREE.Mesh(emailGeomtry, whiteMaterial);
       emailMesh.position.set(emailIconMesh.position.x + 0.4, -1, depth + 0.01);
       emailGroup.add(emailMesh);
 
@@ -462,10 +454,6 @@ function createLogoMesh(width, height, filePath) {
   });
 
   const geometry = new THREE.PlaneGeometry(width, height);
-  // const material = new THREE.MeshPhongMaterial({
-  //   map: texture,
-  //   transparent: true,
-  // });
 
   const logoMesh = new THREE.Mesh(geometry, logoMaterial);
 
