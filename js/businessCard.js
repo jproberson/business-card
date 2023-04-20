@@ -4,7 +4,7 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 const cardWidth = 14;
 const cardHeight = 8;
 const depth = 0.1;
-const whiteColor = "0xfefefe";
+const whiteColor = "#fefefe";
 const darkColor = "#262D35";
 const lightBlue = "#0CA8E2";
 const lightBlueDarker = "#0094D8";
@@ -12,7 +12,6 @@ const darkBlue = "#026FB4";
 
 const card = new THREE.Group();
 
-//Reusable materials
 const whiteMaterial = new THREE.MeshPhongMaterial({ color: whiteColor });
 const darkMaterial = new THREE.MeshPhongMaterial({ color: darkColor });
 const lightBlueMaterial = new THREE.MeshPhongMaterial({ color: lightBlue });
@@ -25,23 +24,19 @@ const blackMaterial = new THREE.MeshPhongMaterial({
 });
 
 export function createBusinessCard() {
-  // firstCardRender(card);
   cardRender();
 
-  //CREATE TEXT
   createCardTextAndLogo();
 
   return card;
 }
 
 function cardRender() {
-  //LEFT SIDE
   const leftSideMesh = createLeftSideOfCard();
   leftSideMesh.position.set(0, 0, 0);
 
   card.add(leftSideMesh);
 
-  //MIDDLE
   const middleMeshes = createMiddleOfCard();
 
   middleMeshes.forEach((mesh) => {
@@ -49,7 +44,6 @@ function cardRender() {
     card.add(mesh);
   });
 
-  //RIGHT SIDE
   const rightSideMesh = createRightSideOfCard();
   rightSideMesh.position.set(0, 0, 0);
   card.add(rightSideMesh);
@@ -64,22 +58,16 @@ function createLeftSideOfCard() {
     new THREE.Vector2(-cardWidth / 2, cardHeight / 2),
   ];
 
-  // Create the shape from the list of coordinates
   const shape = new THREE.Shape(coordinatesList);
 
-  // Create extrude settings for 3D geometry
   const extrudeSettings = {
     steps: 1,
     depth: depth,
     bevelEnabled: false,
   };
 
-  // Create ExtrudeGeometry from the shape
   const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
-  // Create material with a different color
-
-  // Create mesh
   const mesh = new THREE.Mesh(geometry, whiteMaterial);
 
   return mesh;
@@ -137,7 +125,6 @@ function createMiddleOfCard() {
   //   new THREE.Vector2(-cardWidth / 12, 0),
   // ];
 
-  // Create the shape from the list of coordinates
   // const fullShape = new THREE.Shape(fullCoordList);
   // const fullGeometry = new THREE.ExtrudeGeometry(fullShape, extrudeSettings);
   // const fullMesh = new THREE.Mesh(fullGeometry, material);
@@ -148,14 +135,11 @@ function createMiddleOfCard() {
 
   const topShape = new THREE.Shape(topCoordinatesList);
 
-  // Create extrude settings for 3D geometry
   const extrudeSettings = {
     steps: 1,
     depth: depth,
     bevelEnabled: false,
   };
-
-  // Create ExtrudeGeometry from the shape
 
   const bottomGeometry = new THREE.ExtrudeGeometry(
     bottomShape,
@@ -172,8 +156,6 @@ function createMiddleOfCard() {
   );
 
   const topGeomtry = new THREE.ExtrudeGeometry(topShape, extrudeSettings);
-
-  // Create mesh
 
   const bottomMesh = new THREE.Mesh(bottomGeometry, darkBlueMaterial);
   // const middleMesh = new THREE.Mesh(middleGeomtry, lightMaterial);
@@ -196,20 +178,16 @@ function createRightSideOfCard() {
     new THREE.Vector2(-cardWidth / 24, 0),
   ];
 
-  // Create the shape from the list of coordinates
   const shape = new THREE.Shape(coordinatesList);
 
-  // Create extrude settings for 3D geometry
   const extrudeSettings = {
     steps: 1,
     depth: depth,
     bevelEnabled: false,
   };
 
-  // Create ExtrudeGeometry from the shape
   const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
-  // Create mesh
   const mesh = new THREE.Mesh(geometry, darkMaterial);
 
   return mesh;
@@ -260,7 +238,6 @@ function createCardTextAndLogo() {
       optimer_bold,
       optimer_regular,
     ]) => {
-      // Company Name
       const companyNameShapes = helvetiker_bold.generateShapes(
         "JPR CODE",
         companyFontSize,
@@ -279,7 +256,6 @@ function createCardTextAndLogo() {
       );
       card.add(companyNameMesh);
 
-      //SLOGAN
       const sloganShape = gentilis_regular.generateShapes(
         "Transforming ideas into reality",
         sloganFontSize,
@@ -295,7 +271,6 @@ function createCardTextAndLogo() {
       );
       card.add(sloganMesh);
 
-      // My Name - First Word
       const firstNameShapes = gentilis_bold.generateShapes(
         "Jacob",
         nameFontSize,
@@ -307,7 +282,6 @@ function createCardTextAndLogo() {
       firstNameMesh.position.set(1, 0.9, depth + 0.01);
       card.add(firstNameMesh);
 
-      // My Name - Second Word
       const lastNameShapes = gentilis_regular.generateShapes(
         "Roberson",
         nameFontSize,
@@ -344,7 +318,6 @@ function createCardTextAndLogo() {
       title1Mesh.position.set(1.3, 0.4, depth + 0.01);
       card.add(title1Mesh);
 
-      //EMAIL
       const emailGroup = new THREE.Group();
       emailGroup.name = "emailGroup";
 
@@ -363,8 +336,8 @@ function createCardTextAndLogo() {
       emailMesh.position.set(emailIconMesh.position.x + 0.4, -1, depth + 0.01);
       emailGroup.add(emailMesh);
 
-      const planeWidth = 4.2; // Adjust the width according to your needs
-      const planeHeight = 0.6; // Adjust the height according to your needs
+      const planeWidth = 4.2;
+      const planeHeight = 0.6;
       const planeGeometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
       const planeMaterial = new THREE.MeshBasicMaterial({
         color: 0x000000,
@@ -372,14 +345,13 @@ function createCardTextAndLogo() {
         opacity: 0,
       });
       const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
-      planeMesh.position.set(3.1, -0.9, depth + 0.002); // Adjust the position according to your needs
+      planeMesh.position.set(3.1, -0.9, depth + 0.002);
       emailGroup.add(planeMesh);
 
       card.add(emailGroup);
     }
   );
 
-  //LOGOS
   const companyLogoWidth = 2;
   const companyLogoHeight = 2;
 
