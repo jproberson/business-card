@@ -1,5 +1,5 @@
 import { Raycaster, Vector2 } from "three";
-
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 let businessCard;
 let targetRotationOnPointerDown = 0;
 let targetRotation = 0;
@@ -27,9 +27,11 @@ export function setupControlsAndEvents(canvas, camera, card, renderer) {
   //   canvas.style.touchAction = "none";
   canvas.addEventListener("pointerdown", onPointerDown);
 
+  setupOrbitControls(camera, renderer);
+
   return {
     updateRotation: (group) => {
-      group.rotation.y += (targetRotation - group.rotation.y) * 0.05;
+      // group.rotation.y += (targetRotation - group.rotation.y) * 0.05;
     },
   };
 }
@@ -138,18 +140,11 @@ function onMouseMove(event, canvas, camera) {
   document.body.style.cursor = isHovered ? "pointer" : "default";
 }
 
-//THE FOLLOWING COMMENTED CODE USES THE ORBITAL CONTROLS TO ALLOW MOVEMENT
-//STILL HAVENT DECIDED WHICH I PREFER
-/*
-// Set up OrbitControls
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.target = businessCard.position;
-controls.enablePan = false;
-controls.update();
-controls.maxPolarAngle = Math.PI * 0.5;
-controls.minDistance = 0.1;
-controls.maxDistance = 100;
-// controls.autoRotate = true;
-controls.autoRotateSpeed = 0.25;
-controls.update();
-*/
+function setupOrbitControls(camera, renderer) {
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enablePan = false;
+  controls.enableZoom = false;
+  controls.update();
+  controls.maxPolarAngle = Math.PI * 0.5;
+  controls.autoRotateSpeed = 0.25;
+}

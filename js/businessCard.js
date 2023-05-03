@@ -34,18 +34,20 @@ export function createBusinessCard() {
 function cardRender() {
   const leftSideMesh = createLeftSideOfCard();
   leftSideMesh.position.set(0, 0, 0);
-
+  leftSideMesh.renderOrder = 0;
   card.add(leftSideMesh);
 
   const middleMeshes = createMiddleOfCard();
 
   middleMeshes.forEach((mesh) => {
     mesh.position.set(0, 0, 0);
+    mesh.renderOrder = 0;
     card.add(mesh);
   });
 
   const rightSideMesh = createRightSideOfCard();
   rightSideMesh.position.set(0, 0, 0);
+  rightSideMesh.renderOrder = 0;
   card.add(rightSideMesh);
 }
 
@@ -81,15 +83,6 @@ function createMiddleOfCard() {
     new THREE.Vector2(-cardWidth / 18, -cardHeight / 6),
   ];
 
-  const middleCoordinatesList = [
-    new THREE.Vector2(-cardWidth / 18, -cardHeight / 6),
-    new THREE.Vector2(-cardWidth / 72, -cardHeight / 6),
-    new THREE.Vector2(-cardWidth / 24, 0),
-    new THREE.Vector2(-cardWidth / 72, cardHeight / 6),
-    new THREE.Vector2(-cardWidth / 18, cardHeight / 6),
-    new THREE.Vector2(-cardWidth / 12, 0),
-  ];
-
   const middleLeftCoordinatesList = [
     new THREE.Vector2(-cardWidth / 18, -cardHeight / 6),
     new THREE.Vector2(-cardWidth / 72 - cardWidth / 48, -cardHeight / 6),
@@ -115,20 +108,6 @@ function createMiddleOfCard() {
     new THREE.Vector2(0, cardHeight / 2),
   ];
 
-  //THIS IS THE FULL MIDDLE BUT THIS IS THE OLD WIDER VERSION
-  // const fullCoordList = [
-  //   new THREE.Vector2(0, -cardHeight / 2),
-  //   new THREE.Vector2(cardWidth / 12, -cardHeight / 2),
-  //   new THREE.Vector2(0, 0),
-  //   new THREE.Vector2(cardWidth / 12, cardHeight / 2),
-  //   new THREE.Vector2(0, cardHeight / 2),
-  //   new THREE.Vector2(-cardWidth / 12, 0),
-  // ];
-
-  // const fullShape = new THREE.Shape(fullCoordList);
-  // const fullGeometry = new THREE.ExtrudeGeometry(fullShape, extrudeSettings);
-  // const fullMesh = new THREE.Mesh(fullGeometry, material);
-
   const bottomShape = new THREE.Shape(bottomCoordinatesList);
   const middleLeftShape = new THREE.Shape(middleLeftCoordinatesList);
   const middleRightShape = new THREE.Shape(middleRightCoordinatesList);
@@ -145,7 +124,6 @@ function createMiddleOfCard() {
     bottomShape,
     extrudeSettings
   );
-  // const middleGeomtry = new THREE.ExtrudeGeometry(middleShape, extrudeSettings);
   const middleLeftGeomtry = new THREE.ExtrudeGeometry(
     middleLeftShape,
     extrudeSettings
@@ -158,7 +136,6 @@ function createMiddleOfCard() {
   const topGeomtry = new THREE.ExtrudeGeometry(topShape, extrudeSettings);
 
   const bottomMesh = new THREE.Mesh(bottomGeometry, darkBlueMaterial);
-  // const middleMesh = new THREE.Mesh(middleGeomtry, lightMaterial);
   const middleLeftMesh = new THREE.Mesh(middleLeftGeomtry, lightBlueMaterial);
   const middleRightMesh = new THREE.Mesh(
     middleRightGeomtry,
@@ -252,6 +229,7 @@ function createCardTextAndLogo() {
         companyNameY,
         depth + 0.01
       );
+      companyNameMesh.renderOrder = 2;
       card.add(companyNameMesh);
 
       const sloganShape = gentilis_regular.generateShapes(
@@ -267,6 +245,7 @@ function createCardTextAndLogo() {
         companyNameY - 1,
         depth + 0.01
       );
+      sloganMesh.renderOrder = 2;
       card.add(sloganMesh);
 
       const firstNameShapes = gentilis_bold.generateShapes(
@@ -278,6 +257,7 @@ function createCardTextAndLogo() {
 
       const firstNameMesh = new THREE.Mesh(firstNameGeometry, whiteMaterial);
       firstNameMesh.position.set(1, 0.9, depth + 0.01);
+      firstNameMesh.renderOrder = 2;
       card.add(firstNameMesh);
 
       const lastNameShapes = gentilis_regular.generateShapes(
@@ -303,6 +283,7 @@ function createCardTextAndLogo() {
       });
 
       lastNameMesh.position.set(1 + firstNameWidth + 0.1, 0.9, depth + 0.01);
+      lastNameMesh.renderOrder = 2;
       card.add(lastNameMesh);
 
       const title1Shapes = gentilis_regular.generateShapes(
@@ -314,6 +295,7 @@ function createCardTextAndLogo() {
 
       const title1Mesh = new THREE.Mesh(title1Geometry, whiteMaterial);
       title1Mesh.position.set(1.3, 0.4, depth + 0.01);
+      title1Mesh.renderOrder = 2;
       card.add(title1Mesh);
 
       const emailGroup = new THREE.Group();
@@ -332,6 +314,7 @@ function createCardTextAndLogo() {
 
       const emailMesh = new THREE.Mesh(emailGeomtry, whiteMaterial);
       emailMesh.position.set(emailIconMesh.position.x + 0.4, -1, depth + 0.01);
+      emailMesh.renderOrder = 2;
       emailGroup.add(emailMesh);
 
       const planeWidth = 4.2;
@@ -358,6 +341,7 @@ function createCardTextAndLogo() {
     companyLogoHeight,
     "./icons/logo.png"
   );
+  companyLogoMesh.renderOrder = 1;
   companyLogoMesh.name = "logo";
 
   companyLogoMesh.position.set(
@@ -375,6 +359,7 @@ function createCardTextAndLogo() {
     githubLogoHeight,
     "./icons/github3.png"
   );
+  githubLogoMesh.renderOrder = 1;
   githubLogoMesh.name = "github";
 
   githubLogoMesh.position.set(cardWidth / 7, -cardHeight / 4, depth + 0.01);
@@ -388,6 +373,7 @@ function createCardTextAndLogo() {
     linkedInLogoHeight,
     "./icons/linkedin.png"
   );
+  linkedInLogoMesh.renderOrder = 1;
   linkedInLogoMesh.name = "linkedin";
 
   linkedInLogoMesh.position.set(cardWidth / 4, -cardHeight / 4, depth + 0.01);
@@ -410,6 +396,14 @@ const fragmentShader = `
 
   void main() {
     vec4 texColor = texture2D(logoTexture, vUv);
+    // Set an alpha threshold value
+    float alphaThreshold = 0.1;
+
+    // Discard fragments with alpha below the threshold
+    if (texColor.a < alphaThreshold) {
+      discard;
+    }
+
     gl_FragColor = vec4(texColor.rgb * tint, texColor.a);
   }
 `;
@@ -425,6 +419,8 @@ function createLogoMesh(width, height, filePath) {
     vertexShader: vertexShader,
     fragmentShader: fragmentShader,
     transparent: true,
+    depthTest: false,
+    depthWrite: false,
   });
 
   const geometry = new THREE.PlaneGeometry(width, height);
