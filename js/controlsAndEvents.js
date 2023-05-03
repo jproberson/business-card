@@ -9,9 +9,12 @@ let windowHalfX = window.innerWidth / 2;
 const interactableMeshNames = ["github", "linkedin", "emailGroup"];
 const raycaster = new Raycaster();
 const mouse = new Vector2();
+let _renderer, _camera;
 
-export function setupControlsAndEvents(canvas, camera, card) {
+export function setupControlsAndEvents(canvas, camera, card, renderer) {
   businessCard = card;
+  _renderer = renderer;
+  _camera = camera;
 
   canvas.addEventListener("mousemove", (event) =>
     onMouseMove(event, canvas, camera)
@@ -21,7 +24,7 @@ export function setupControlsAndEvents(canvas, camera, card) {
     onMouseClick(event, canvas, camera)
   );
 
-  canvas.style.touchAction = "none";
+  //   canvas.style.touchAction = "none";
   canvas.addEventListener("pointerdown", onPointerDown);
 
   return {
@@ -34,10 +37,10 @@ export function setupControlsAndEvents(canvas, camera, card) {
 function onWindowResize() {
   windowHalfX = window.innerWidth / 2;
 
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
+  _camera.aspect = window.innerWidth / window.innerHeight;
+  _camera.updateProjectionMatrix();
 
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  _renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function onPointerDown(event) {

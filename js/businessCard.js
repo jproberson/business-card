@@ -203,14 +203,12 @@ function createCardTextAndLogo() {
 
   const loader = new FontLoader();
 
-  // Helper function to load fonts
   function loadFont(url) {
     return new Promise((resolve, reject) => {
       loader.load(url, resolve, undefined, reject);
     });
   }
 
-  // Load both fonts
   Promise.all([
     loadFont(
       "https://threejs.org/examples/fonts/helvetiker_bold.typeface.json"
@@ -355,15 +353,19 @@ function createCardTextAndLogo() {
   const companyLogoWidth = 2;
   const companyLogoHeight = 2;
 
-  const logoMesh = createLogoMesh(
+  const companyLogoMesh = createLogoMesh(
     companyLogoWidth,
     companyLogoHeight,
     "./icons/logo.png"
   );
-  logoMesh.name = "logo";
+  companyLogoMesh.name = "logo";
 
-  logoMesh.position.set(-cardWidth / 3.3, companyNameY + 2.1, depth + 0.01);
-  card.add(logoMesh);
+  companyLogoMesh.position.set(
+    -cardWidth / 3.3,
+    companyNameY + 2.1,
+    depth + 0.01
+  );
+  card.add(companyLogoMesh);
 
   const githubLogoWidth = 1;
   const githubLogoHeight = 1;

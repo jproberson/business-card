@@ -11,7 +11,7 @@ export function createScene() {
   scene.add(dirLight);
 
   const pointLight = new THREE.PointLight(0xffffff, 1.5);
-  pointLight.position.set(0, 100, 90);
+  pointLight.position.set(50, 100, 90);
   scene.add(pointLight);
 
   const sphereSize = 1; // TEMP FOR TESTING
@@ -33,6 +33,9 @@ export function createScene() {
 
   //(red, green, blue)
   scene.add(new THREE.AxesHelper(1000)); // TEMP FOR TESTING
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // color, intensity
+  scene.add(ambientLight);
 
   return scene;
 }

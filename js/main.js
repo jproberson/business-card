@@ -11,7 +11,6 @@ let camera;
 container = document.createElement("div");
 document.body.appendChild(container);
 
-//SCENE & background & lights
 const scene = createScene();
 
 camera = new THREE.PerspectiveCamera(
@@ -21,8 +20,6 @@ camera = new THREE.PerspectiveCamera(
   1500
 );
 camera.position.set(0, 400, 700);
-
-cameraTarget = new THREE.Vector3(0, 150, 0);
 
 camera.lookAt(scene.position);
 cameraTarget = new THREE.Vector3(0, 5, 0);
@@ -47,24 +44,26 @@ businessCard.scale.set(20, 20, 20);
 
 group.add(businessCard);
 
-const animate = function () {
-  requestAnimationFrame(animate);
-
-  //   controls.update();
-  renderer.render(scene, camera);
-  render();
-};
-
-const controlsAndEvents = setupControlsAndEvents(canvas, camera, businessCard);
+const controlsAndEvents = setupControlsAndEvents(
+  canvas,
+  camera,
+  businessCard,
+  renderer
+);
 
 function render() {
   controlsAndEvents.updateRotation(group);
-
   camera.lookAt(cameraTarget);
 
   renderer.clear();
   renderer.render(scene, camera);
 }
 
-// Start the animation loop
+const animate = function () {
+  requestAnimationFrame(animate);
+  //   controls.update();
+  renderer.render(scene, camera);
+  render();
+};
+
 animate();
