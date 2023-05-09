@@ -22,7 +22,7 @@ export function createScene() {
   //(red, green, blue)
   // scene.add(new THREE.AxesHelper(1000)); // TEMP FOR TESTING
 
-  // setupSpotlights(scene);
+  setupSpotlights(scene);
   return scene;
 }
 
