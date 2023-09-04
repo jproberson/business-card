@@ -29,21 +29,24 @@ export function createScene() {
 function setupSpotlights(scene) {
   // Create a spotlight
   const spotLight = new THREE.SpotLight(0xffffff, 1);
-  spotLight.position.set(0, 300, 500);
-  spotLight.angle = Math.PI / 8;
-  spotLight.penumbra = 0.05;
-  spotLight.decay = 2;
-  spotLight.distance = 2000;
+  spotLight.position.set(0, 500, 500);
+  spotLight.angle = Math.PI / 16;
+  spotLight.penumbra = 0.1;
+  spotLight.decay = 1.5;
+  spotLight.distance = 1000;
 
   // Add the spotlight to the scene
   scene.add(spotLight);
 
   // Add a helper to visualize the spotlight
   const spotLightHelper = new THREE.SpotLightHelper(spotLight);
-  scene.add(spotLightHelper);
+  // scene.add(spotLightHelper);
 
   // Add a point light for subtle, general illumination
   const pointLight = new THREE.PointLight(0xffffff, 0.3);
   // pointLight.position.set(500, 500, 500);
   scene.add(pointLight);
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+  scene.add(ambientLight);
 }
