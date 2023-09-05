@@ -1,0 +1,69 @@
+body {
+  margin: 0;
+}
+
+#canvas {
+  height: 100vh;
+}
+
+.background-lights {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.container {
+  position: relative;
+  background-color: #040d21;
+  z-index: 10;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.container::before,
+.container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Top-left gradient with base color #0094D8 */
+.container::before {
+  background: radial-gradient(
+    circle at -10% -10%,
+    rgba(0, 148, 216, 0.4) 0%,
+    transparent 20%
+  );
+  z-index: -1;
+}
+
+/* Top-right gradient with base color #026FB4 */
+.container::after {
+  background: radial-gradient(
+    circle at 110% -10%,
+    rgba(2, 111, 180, 0.3) 0%,
+    transparent 15%
+  );
+  z-index: -2;
+}
+
+#canvas {
+  position: relative;
+  height: 100vh;
+  /* Bottom-right gradient with base color #0CA8E2 */
+  background: radial-gradient(
+    circle at 110% 110%,
+    rgba(12, 168, 226, 0.4) 0%,
+    transparent 25%
+  );
+}

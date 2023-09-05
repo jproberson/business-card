@@ -11,23 +11,29 @@ const raycaster = new Raycaster();
 const mouse = new Vector2();
 let _renderer, _camera;
 
-export function setupControlsAndEvents(canvas, camera, card, renderer) {
+export function setupControlsAndEvents(
+  canvas,
+  camera,
+  card,
+  renderer,
+  groupObj,
+) {
   businessCard = card;
   _renderer = renderer;
   _camera = camera;
 
   canvas.addEventListener("mousemove", (event) =>
-    onMouseMove(event, canvas, camera)
+    onMouseMove(event, canvas, camera),
   );
   window.addEventListener("resize", onWindowResize);
   canvas.addEventListener("click", (event) =>
-    onMouseClick(event, canvas, camera)
+    onMouseClick(event, canvas, camera),
   );
 
   //   canvas.style.touchAction = "none";
   canvas.addEventListener("pointerdown", onPointerDown);
 
-  setupOrbitControls(camera, renderer);
+  setupOrbitControls(camera, renderer, groupObj);
 
   return {
     updateRotation: (group) => {
@@ -87,7 +93,7 @@ function onMouseClick(event, canvas, camera) {
       case "linkedin":
         window.open(
           "https://www.linkedin.com/in/jacob-roberson-23b813149",
-          "_blank"
+          "_blank",
         );
         break;
       case "email":
@@ -124,7 +130,7 @@ function onMouseMove(event, canvas, camera) {
         });
       } else {
         intersected = intersects.some(
-          (intersect) => intersect.object === object
+          (intersect) => intersect.object === object,
         );
       }
 
@@ -140,8 +146,12 @@ function onMouseMove(event, canvas, camera) {
   document.body.style.cursor = isHovered ? "pointer" : "default";
 }
 
-function setupOrbitControls(camera, renderer) {
+function setupOrbitControls(camera, renderer, group) {
   const controls = new OrbitControls(camera, renderer.domElement);
+
+  // Set the controls target to the group's position
+  controls.target.set(group.position.x, group.position.y, group.position.z);
+
   controls.enablePan = false;
   controls.enableZoom = false;
   controls.update();
