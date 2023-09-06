@@ -1,8 +1,6 @@
 import { Raycaster, Vector2 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 let businessCard;
-let targetRotationOnPointerDown = 0;
-let targetRotation = 0;
 let pointerX = 0;
 let pointerXOnPointerDown = 0;
 let windowHalfX = window.innerWidth / 2;
@@ -36,9 +34,9 @@ export function setupControlsAndEvents(
   setupOrbitControls(camera, renderer, groupObj);
 
   return {
-    updateRotation: (group) => {
-      // group.rotation.y += (targetRotation - group.rotation.y) * 0.05;
-    },
+    // updateRotation: (group) => {
+    // group.rotation.y += (targetRotation - group.rotation.y) * 0.05;
+    // },
   };
 }
 
@@ -55,7 +53,6 @@ function onPointerDown(event) {
   if (event.isPrimary === false) return;
 
   pointerXOnPointerDown = event.clientX - windowHalfX;
-  targetRotationOnPointerDown = targetRotation;
 
   document.addEventListener("pointermove", onPointerMove);
   document.addEventListener("pointerup", onPointerUp);
@@ -64,9 +61,6 @@ function onPointerMove(event) {
   if (event.isPrimary === false) return;
 
   pointerX = event.clientX - windowHalfX;
-
-  targetRotation =
-    targetRotationOnPointerDown + (pointerX - pointerXOnPointerDown) * 0.02;
 }
 
 function onPointerUp() {
@@ -149,12 +143,18 @@ function onMouseMove(event, canvas, camera) {
 function setupOrbitControls(camera, renderer, group) {
   const controls = new OrbitControls(camera, renderer.domElement);
 
-  // Set the controls target to the group's position
   controls.target.set(group.position.x, group.position.y, group.position.z);
 
-  controls.enablePan = false;
-  controls.enableZoom = false;
+  controls.enablePan = true;
+  controls.enableZoom = true;
+  controls.minDistance = 400; // Minimum zoom distance
+  controls.maxDistance = 700; // Maximum zoom distance
+
   controls.update();
   controls.maxPolarAngle = Math.PI * 0.5;
   controls.autoRotateSpeed = 0.25;
+
+  // Restrict horizontal rotation to view only the front of the card
+  controls.minAzimuthAngle = -Math.PI / 4; // -45 degrees
+  controls.maxAzimuthAngle = Math.PI / 4; // 45 degrees
 }

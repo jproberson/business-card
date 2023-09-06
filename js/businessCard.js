@@ -4,24 +4,43 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 const cardWidth = 14;
 const cardHeight = 8;
 const depth = 0.1;
+const depthAdd = depth + 0.2;
+
 const whiteColor = "#fefefe";
 const darkColor = "#262D35";
 const lightBlue = "#0CA8E2";
 const lightBlueDarker = "#0094D8";
 const darkBlue = "#026FB4";
 
-const card = new THREE.Group();
+const extrudeSettings = {
+  steps: 1,
+  depth: depth,
+  bevelEnabled: true,
+  bevelThickness: 0.02,
+  bevelSize: 0.02,
+  bevelOffset: 0,
+  bevelSegments: 1,
+};
 
-const whiteMaterial = new THREE.MeshPhongMaterial({ color: whiteColor });
-const darkMaterial = new THREE.MeshPhongMaterial({ color: darkColor });
-const lightBlueMaterial = new THREE.MeshPhongMaterial({ color: lightBlue });
-const darkBlueMaterial = new THREE.MeshPhongMaterial({ color: darkBlue });
-const lightBlueDarkerMaterial = new THREE.MeshPhongMaterial({
-  color: lightBlueDarker,
-});
-const blackMaterial = new THREE.MeshPhongMaterial({
-  color: "black",
-});
+const card = new THREE.Group();
+const paperTexture = new THREE.TextureLoader().load(
+  "./icons/white-paper-texture.jpg",
+);
+
+const whiteMaterial = createMaterial(whiteColor);
+const darkMaterial = createMaterial(darkColor);
+const lightBlueMaterial = createMaterial(lightBlue);
+const darkBlueMaterial = createMaterial(darkBlue);
+const lightBlueDarkerMaterial = createMaterial(lightBlueDarker);
+const blackMaterial = createMaterial("black");
+
+function createMaterial(color) {
+  const material = new THREE.MeshPhongMaterial({ color: color });
+  material.map = paperTexture;
+  material.shininess = 10;
+  material.specular = new THREE.Color(0xaaaaaa);
+  return material;
+}
 
 export function createBusinessCard() {
   cardRender();
@@ -35,6 +54,8 @@ function cardRender() {
   const leftSideMesh = createLeftSideOfCard();
   leftSideMesh.position.set(0, 0, 0);
   leftSideMesh.renderOrder = 0;
+  leftSideMesh.castShadow = true;
+  leftSideMesh.receiveShadow = true;
   card.add(leftSideMesh);
 
   const middleMeshes = createMiddleOfCard();
@@ -42,12 +63,17 @@ function cardRender() {
   middleMeshes.forEach((mesh) => {
     mesh.position.set(0, 0, 0);
     mesh.renderOrder = 0;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
     card.add(mesh);
   });
 
   const rightSideMesh = createRightSideOfCard();
   rightSideMesh.position.set(0, 0, 0);
   rightSideMesh.renderOrder = 0;
+  rightSideMesh.castShadow = true;
+  rightSideMesh.receiveShadow = true;
+
   card.add(rightSideMesh);
 }
 
@@ -61,12 +87,6 @@ function createLeftSideOfCard() {
   ];
 
   const shape = new THREE.Shape(coordinatesList);
-
-  const extrudeSettings = {
-    steps: 1,
-    depth: depth,
-    bevelEnabled: false,
-  };
 
   const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
@@ -114,23 +134,17 @@ function createMiddleOfCard() {
 
   const topShape = new THREE.Shape(topCoordinatesList);
 
-  const extrudeSettings = {
-    steps: 1,
-    depth: depth,
-    bevelEnabled: false,
-  };
-
   const bottomGeometry = new THREE.ExtrudeGeometry(
     bottomShape,
-    extrudeSettings
+    extrudeSettings,
   );
   const middleLeftGeomtry = new THREE.ExtrudeGeometry(
     middleLeftShape,
-    extrudeSettings
+    extrudeSettings,
   );
   const middleRightGeomtry = new THREE.ExtrudeGeometry(
     middleRightShape,
-    extrudeSettings
+    extrudeSettings,
   );
 
   const topGeomtry = new THREE.ExtrudeGeometry(topShape, extrudeSettings);
@@ -139,7 +153,7 @@ function createMiddleOfCard() {
   const middleLeftMesh = new THREE.Mesh(middleLeftGeomtry, lightBlueMaterial);
   const middleRightMesh = new THREE.Mesh(
     middleRightGeomtry,
-    lightBlueDarkerMaterial
+    lightBlueDarkerMaterial,
   );
 
   const topMesh = new THREE.Mesh(topGeomtry, darkBlueMaterial);
@@ -156,12 +170,6 @@ function createRightSideOfCard() {
   ];
 
   const shape = new THREE.Shape(coordinatesList);
-
-  const extrudeSettings = {
-    steps: 1,
-    depth: depth,
-    bevelEnabled: false,
-  };
 
   const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
@@ -188,21 +196,21 @@ function createCardTextAndLogo() {
 
   Promise.all([
     loadFont(
-      "https://threejs.org/examples/fonts/helvetiker_bold.typeface.json"
+      "https://threejs.org/examples/fonts/helvetiker_bold.typeface.json",
     ),
     loadFont(
-      "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
+      "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
     ),
     loadFont("https://threejs.org/examples/fonts/gentilis_bold.typeface.json"),
     loadFont(
-      "https://threejs.org/examples/fonts/gentilis_regular.typeface.json"
+      "https://threejs.org/examples/fonts/gentilis_regular.typeface.json",
     ),
     loadFont(
-      "https://threejs.org/examples/fonts/gentilis_regular.typeface.json"
+      "https://threejs.org/examples/fonts/gentilis_regular.typeface.json",
     ),
     loadFont("https://threejs.org/examples/fonts/optimer_bold.typeface.json"),
     loadFont(
-      "https://threejs.org/examples/fonts/optimer_regular.typeface.json"
+      "https://threejs.org/examples/fonts/optimer_regular.typeface.json",
     ),
   ]).then(
     ([
@@ -216,60 +224,52 @@ function createCardTextAndLogo() {
       const companyNameShapes = helvetiker_bold.generateShapes(
         "JPR CODE",
         companyFontSize,
-        5
+        5,
       );
       const companyNameGeometry = new THREE.ShapeGeometry(companyNameShapes);
 
       const companyNameMesh = new THREE.Mesh(
         companyNameGeometry,
-        blackMaterial
+        blackMaterial,
       );
-      companyNameMesh.position.set(
-        -cardWidth * 0.46,
-        companyNameY,
-        depth + 0.01
-      );
+      companyNameMesh.position.set(-cardWidth * 0.46, companyNameY, depthAdd);
       companyNameMesh.renderOrder = 2;
       card.add(companyNameMesh);
 
       const sloganShape = gentilis_regular.generateShapes(
         "Transforming ideas into reality",
         sloganFontSize,
-        5
+        5,
       );
       const sloganGeometry = new THREE.ShapeGeometry(sloganShape);
 
       const sloganMesh = new THREE.Mesh(sloganGeometry, blackMaterial);
-      sloganMesh.position.set(
-        -cardWidth * 0.49,
-        companyNameY - 1,
-        depth + 0.01
-      );
+      sloganMesh.position.set(-cardWidth * 0.49, companyNameY - 1, depthAdd);
       sloganMesh.renderOrder = 2;
       card.add(sloganMesh);
 
       const firstNameShapes = gentilis_bold.generateShapes(
         "Jacob",
         nameFontSize,
-        5
+        5,
       );
       const firstNameGeometry = new THREE.ShapeGeometry(firstNameShapes);
 
       const firstNameMesh = new THREE.Mesh(firstNameGeometry, whiteMaterial);
-      firstNameMesh.position.set(1, 0.9, depth + 0.01);
+      firstNameMesh.position.set(1, 0.9, depthAdd);
       firstNameMesh.renderOrder = 2;
       card.add(firstNameMesh);
 
       const lastNameShapes = gentilis_regular.generateShapes(
         "Roberson",
         nameFontSize,
-        5
+        5,
       );
       const lastNameGeometry = new THREE.ShapeGeometry(lastNameShapes);
 
       const lastNameMesh = new THREE.Mesh(
         lastNameGeometry,
-        lightBlueDarkerMaterial
+        lightBlueDarkerMaterial,
       );
 
       // Adjust the position based on the width of the first word
@@ -282,19 +282,19 @@ function createCardTextAndLogo() {
         });
       });
 
-      lastNameMesh.position.set(1 + firstNameWidth + 0.1, 0.9, depth + 0.01);
+      lastNameMesh.position.set(1 + firstNameWidth + 0.2, 0.9, depthAdd);
       lastNameMesh.renderOrder = 2;
       card.add(lastNameMesh);
 
       const title1Shapes = gentilis_regular.generateShapes(
         "Founder | Software Engineer",
         titleFontSize,
-        5
+        5,
       );
       const title1Geometry = new THREE.ShapeGeometry(title1Shapes);
 
       const title1Mesh = new THREE.Mesh(title1Geometry, whiteMaterial);
-      title1Mesh.position.set(1.3, 0.4, depth + 0.01);
+      title1Mesh.position.set(1.3, 0.4, depthAdd);
       title1Mesh.renderOrder = 2;
       card.add(title1Mesh);
 
@@ -302,18 +302,18 @@ function createCardTextAndLogo() {
       emailGroup.name = "emailGroup";
 
       const emailIconMesh = createLogoMesh(0.5, 0.5, "./icons/email.png");
-      emailIconMesh.position.set(1.3, -1 + 0.13, depth + 0.01);
+      emailIconMesh.position.set(1.3, -1 + 0.13, depthAdd);
       emailGroup.add(emailIconMesh);
 
       const emailShape = helvetiker_regularFont.generateShapes(
         "jroberson@jprcode.com",
         contactFontSize,
-        5
+        5,
       );
       const emailGeomtry = new THREE.ShapeGeometry(emailShape);
 
       const emailMesh = new THREE.Mesh(emailGeomtry, whiteMaterial);
-      emailMesh.position.set(emailIconMesh.position.x + 0.4, -1, depth + 0.01);
+      emailMesh.position.set(emailIconMesh.position.x + 0.4, -1, depthAdd);
       emailMesh.renderOrder = 2;
       emailGroup.add(emailMesh);
 
@@ -330,7 +330,7 @@ function createCardTextAndLogo() {
       emailGroup.add(planeMesh);
 
       card.add(emailGroup);
-    }
+    },
   );
 
   const companyLogoWidth = 2;
@@ -339,16 +339,12 @@ function createCardTextAndLogo() {
   const companyLogoMesh = createLogoMesh(
     companyLogoWidth,
     companyLogoHeight,
-    "./icons/logo.png"
+    "./icons/logo.png",
   );
   companyLogoMesh.renderOrder = 1;
   companyLogoMesh.name = "logo";
 
-  companyLogoMesh.position.set(
-    -cardWidth / 3.3,
-    companyNameY + 2.1,
-    depth + 0.01
-  );
+  companyLogoMesh.position.set(-cardWidth / 3.3, companyNameY + 2.1, depthAdd);
   card.add(companyLogoMesh);
 
   const githubLogoWidth = 1;
@@ -357,12 +353,12 @@ function createCardTextAndLogo() {
   const githubLogoMesh = createLogoMesh(
     githubLogoWidth,
     githubLogoHeight,
-    "./icons/github3.png"
+    "./icons/github3.png",
   );
   githubLogoMesh.renderOrder = 1;
   githubLogoMesh.name = "github";
 
-  githubLogoMesh.position.set(cardWidth / 7, -cardHeight / 4, depth + 0.01);
+  githubLogoMesh.position.set(cardWidth / 7, -cardHeight / 4, depthAdd);
   card.add(githubLogoMesh);
 
   const linkedInLogoWidth = 1;
@@ -371,12 +367,12 @@ function createCardTextAndLogo() {
   const linkedInLogoMesh = createLogoMesh(
     linkedInLogoWidth,
     linkedInLogoHeight,
-    "./icons/linkedin.png"
+    "./icons/linkedin.png",
   );
   linkedInLogoMesh.renderOrder = 1;
   linkedInLogoMesh.name = "linkedin";
 
-  linkedInLogoMesh.position.set(cardWidth / 4, -cardHeight / 4, depth + 0.01);
+  linkedInLogoMesh.position.set(cardWidth / 4, -cardHeight / 4, depthAdd);
   card.add(linkedInLogoMesh);
 }
 

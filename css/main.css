@@ -4,6 +4,8 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
+  background-color: #000000;
+  overflow: hidden;
 }
 
 .card {
@@ -33,4 +35,22 @@ body {
   width: 100%;
   text-align: center;
   color: white;
+}
+
+canvas {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  html,
+  body {
+    width: 100vh;
+    height: 100vw;
+    overflow: hidden;
+  }
+
+  body {
+    transform: rotate(-90deg) translateX(-100%);
+    transform-origin: center center;
+  }
 }

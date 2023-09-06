@@ -3,11 +3,12 @@ import * as THREE from "three";
 export function createRoom(width, height, depth) {
   // Create the box geometry
   const geometry = new THREE.BoxGeometry(width, height, depth);
+  const fogColor = 0x000000; // Black fog color to match the background
 
   // Create the material for the room
 
   const roomMaterial = new THREE.MeshPhongMaterial({
-    color: "black",
+    color: fogColor,
     side: THREE.BackSide,
   });
 
