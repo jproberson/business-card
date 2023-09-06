@@ -24,7 +24,7 @@ const extrudeSettings = {
 
 const card = new THREE.Group();
 const paperTexture = new THREE.TextureLoader().load(
-  "./icons/white-paper-texture.jpg",
+  "./assets/images/textures/white-paper-texture.jpg"
 );
 
 const whiteMaterial = createMaterial(whiteColor);
@@ -136,15 +136,15 @@ function createMiddleOfCard() {
 
   const bottomGeometry = new THREE.ExtrudeGeometry(
     bottomShape,
-    extrudeSettings,
+    extrudeSettings
   );
   const middleLeftGeomtry = new THREE.ExtrudeGeometry(
     middleLeftShape,
-    extrudeSettings,
+    extrudeSettings
   );
   const middleRightGeomtry = new THREE.ExtrudeGeometry(
     middleRightShape,
-    extrudeSettings,
+    extrudeSettings
   );
 
   const topGeomtry = new THREE.ExtrudeGeometry(topShape, extrudeSettings);
@@ -153,7 +153,7 @@ function createMiddleOfCard() {
   const middleLeftMesh = new THREE.Mesh(middleLeftGeomtry, lightBlueMaterial);
   const middleRightMesh = new THREE.Mesh(
     middleRightGeomtry,
-    lightBlueDarkerMaterial,
+    lightBlueDarkerMaterial
   );
 
   const topMesh = new THREE.Mesh(topGeomtry, darkBlueMaterial);
@@ -196,21 +196,21 @@ function createCardTextAndLogo() {
 
   Promise.all([
     loadFont(
-      "https://threejs.org/examples/fonts/helvetiker_bold.typeface.json",
+      "https://threejs.org/examples/fonts/helvetiker_bold.typeface.json"
     ),
     loadFont(
-      "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
+      "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
     ),
     loadFont("https://threejs.org/examples/fonts/gentilis_bold.typeface.json"),
     loadFont(
-      "https://threejs.org/examples/fonts/gentilis_regular.typeface.json",
+      "https://threejs.org/examples/fonts/gentilis_regular.typeface.json"
     ),
     loadFont(
-      "https://threejs.org/examples/fonts/gentilis_regular.typeface.json",
+      "https://threejs.org/examples/fonts/gentilis_regular.typeface.json"
     ),
     loadFont("https://threejs.org/examples/fonts/optimer_bold.typeface.json"),
     loadFont(
-      "https://threejs.org/examples/fonts/optimer_regular.typeface.json",
+      "https://threejs.org/examples/fonts/optimer_regular.typeface.json"
     ),
   ]).then(
     ([
@@ -224,13 +224,13 @@ function createCardTextAndLogo() {
       const companyNameShapes = helvetiker_bold.generateShapes(
         "JPR CODE",
         companyFontSize,
-        5,
+        5
       );
       const companyNameGeometry = new THREE.ShapeGeometry(companyNameShapes);
 
       const companyNameMesh = new THREE.Mesh(
         companyNameGeometry,
-        blackMaterial,
+        blackMaterial
       );
       companyNameMesh.position.set(-cardWidth * 0.46, companyNameY, depthAdd);
       companyNameMesh.renderOrder = 2;
@@ -239,7 +239,7 @@ function createCardTextAndLogo() {
       const sloganShape = gentilis_regular.generateShapes(
         "Transforming ideas into reality",
         sloganFontSize,
-        5,
+        5
       );
       const sloganGeometry = new THREE.ShapeGeometry(sloganShape);
 
@@ -251,7 +251,7 @@ function createCardTextAndLogo() {
       const firstNameShapes = gentilis_bold.generateShapes(
         "Jacob",
         nameFontSize,
-        5,
+        5
       );
       const firstNameGeometry = new THREE.ShapeGeometry(firstNameShapes);
 
@@ -263,13 +263,13 @@ function createCardTextAndLogo() {
       const lastNameShapes = gentilis_regular.generateShapes(
         "Roberson",
         nameFontSize,
-        5,
+        5
       );
       const lastNameGeometry = new THREE.ShapeGeometry(lastNameShapes);
 
       const lastNameMesh = new THREE.Mesh(
         lastNameGeometry,
-        lightBlueDarkerMaterial,
+        lightBlueDarkerMaterial
       );
 
       // Adjust the position based on the width of the first word
@@ -289,7 +289,7 @@ function createCardTextAndLogo() {
       const title1Shapes = gentilis_regular.generateShapes(
         "Founder | Software Engineer",
         titleFontSize,
-        5,
+        5
       );
       const title1Geometry = new THREE.ShapeGeometry(title1Shapes);
 
@@ -301,14 +301,18 @@ function createCardTextAndLogo() {
       const emailGroup = new THREE.Group();
       emailGroup.name = "emailGroup";
 
-      const emailIconMesh = createLogoMesh(0.5, 0.5, "./icons/email.png");
+      const emailIconMesh = createLogoMesh(
+        0.5,
+        0.5,
+        "./assets/images/icons//email.png"
+      );
       emailIconMesh.position.set(1.3, -1 + 0.13, depthAdd);
       emailGroup.add(emailIconMesh);
 
       const emailShape = helvetiker_regularFont.generateShapes(
         "jroberson@jprcode.com",
         contactFontSize,
-        5,
+        5
       );
       const emailGeomtry = new THREE.ShapeGeometry(emailShape);
 
@@ -330,7 +334,7 @@ function createCardTextAndLogo() {
       emailGroup.add(planeMesh);
 
       card.add(emailGroup);
-    },
+    }
   );
 
   const companyLogoWidth = 2;
@@ -339,7 +343,7 @@ function createCardTextAndLogo() {
   const companyLogoMesh = createLogoMesh(
     companyLogoWidth,
     companyLogoHeight,
-    "./icons/logo.png",
+    "./assets/images/icons/logo.png"
   );
   companyLogoMesh.renderOrder = 1;
   companyLogoMesh.name = "logo";
@@ -353,7 +357,7 @@ function createCardTextAndLogo() {
   const githubLogoMesh = createLogoMesh(
     githubLogoWidth,
     githubLogoHeight,
-    "./icons/github3.png",
+    "./assets/images/icons/github3.png"
   );
   githubLogoMesh.renderOrder = 1;
   githubLogoMesh.name = "github";
@@ -367,7 +371,7 @@ function createCardTextAndLogo() {
   const linkedInLogoMesh = createLogoMesh(
     linkedInLogoWidth,
     linkedInLogoHeight,
-    "./icons/linkedin.png",
+    "./assets/images/icons/linkedin.png"
   );
   linkedInLogoMesh.renderOrder = 1;
   linkedInLogoMesh.name = "linkedin";
