@@ -24,7 +24,7 @@ const extrudeSettings = {
 
 const card = new THREE.Group();
 const paperTexture = new THREE.TextureLoader().load(
-  "./assets/images/textures/white-paper-texture.jpg"
+  "/assets/images/textures/white-paper-texture.jpg"
 );
 
 const whiteMaterial = createMaterial(whiteColor);
@@ -304,7 +304,7 @@ function createCardTextAndLogo() {
       const emailIconMesh = createLogoMesh(
         0.5,
         0.5,
-        "./assets/images/icons//email.png"
+        "/assets/images/icons//email.png"
       );
       emailIconMesh.position.set(1.3, -1 + 0.13, depthAdd);
       emailGroup.add(emailIconMesh);
@@ -343,7 +343,7 @@ function createCardTextAndLogo() {
   const companyLogoMesh = createLogoMesh(
     companyLogoWidth,
     companyLogoHeight,
-    "./assets/images/icons/logo.png"
+    "/assets/images/icons/logo.png"
   );
   companyLogoMesh.renderOrder = 1;
   companyLogoMesh.name = "logo";
@@ -357,7 +357,7 @@ function createCardTextAndLogo() {
   const githubLogoMesh = createLogoMesh(
     githubLogoWidth,
     githubLogoHeight,
-    "./assets/images/icons/github3.png"
+    "/assets/images/icons/github3.png"
   );
   githubLogoMesh.renderOrder = 1;
   githubLogoMesh.name = "github";
@@ -371,7 +371,7 @@ function createCardTextAndLogo() {
   const linkedInLogoMesh = createLogoMesh(
     linkedInLogoWidth,
     linkedInLogoHeight,
-    "./assets/images/icons/linkedin.png"
+    "/assets/images/icons/linkedin.png"
   );
   linkedInLogoMesh.renderOrder = 1;
   linkedInLogoMesh.name = "linkedin";
