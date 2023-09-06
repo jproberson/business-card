@@ -27,30 +27,15 @@ body {
 
 .title {
   font-family: "Poiret One";
-  font-size: 1.5rem;
+  font-size: 1rem;
   position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
   width: 100%;
-  text-align: center;
+  text-align: right;
   color: white;
+  right: 1rem;
 }
 
 canvas {
   display: block;
-}
-
-@media (max-width: 768px) {
-  html,
-  body {
-    width: 100vh;
-    height: 100vw;
-    overflow: hidden;
-  }
-
-  body {
-    transform: rotate(-90deg) translateX(-100%);
-    transform-origin: center center;
-  }
 }

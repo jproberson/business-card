@@ -77,4 +77,14 @@ window.onload = function () {
   animate();
 };
 
-// window.addEventListener("resize", adjustForMobileView);
+// Assuming you have a perspective camera and a WebGLRenderer
+function onWindowResize() {
+  // Update camera aspect ratio
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  // Resize renderer
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+window.addEventListener("resize", onWindowResize, false);

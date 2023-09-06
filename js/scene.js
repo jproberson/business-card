@@ -1,21 +1,11 @@
 import * as THREE from "three";
 import TWEEN from "three/addons/libs/tween.module.js";
-import { createRoom } from "./backgrounds/room-background";
 import { createBasicGround } from "./backgrounds/basicGround";
 
 const activeTweens = new Map();
 
 export function createScene(businessCard) {
   const scene = new THREE.Scene();
-
-  // const width = 3000;
-  // const height = 1000;
-  // const depth = 3000;
-
-  // room.position.set(0, height / 2, 0);
-  // scene.add(room);
-  //(red, green, blue)
-  // scene.add(new THREE.AxesHelper(1000)); // TEMP FOR TESTING
 
   const size = 3000;
   const floor = createBasicGround(size);
@@ -29,13 +19,9 @@ export function createScene(businessCard) {
 }
 
 function setupSpotlights(scene, businessCard) {
-  // const spotLight1 = createSpotlight(0xff5555);
-  // const spotLight2 = createSpotlight(0x55ff55);
-  // const spotLight3 = createSpotlight(0x5555ff);
-
-  const spotLight1 = createSpotlight(0xffa500, 3); // Orange
-  const spotLight2 = createSpotlight(0x00ffff, 3); // Cyan
-  const spotLight3 = createSpotlight(0x800080, 3); // Purple
+  const spotLight1 = createSpotlight(0xffa500, 1.2); // Orange
+  const spotLight2 = createSpotlight(0x00ffff, 1.2); // Cyan
+  const spotLight3 = createSpotlight(0x800080, 1.2); // Purple
 
   spotLight1.position.set(1.5, 300, 4.5);
   spotLight2.position.set(0, 300, 3.5);
@@ -47,25 +33,20 @@ function setupSpotlights(scene, businessCard) {
 
   scene.add(spotLight1, spotLight2, spotLight3);
 
-  // const lightHelper1 = new THREE.SpotLightHelper(spotLight1);
-  // const lightHelper2 = new THREE.SpotLightHelper(spotLight2);
-  // const lightHelper3 = new THREE.SpotLightHelper(spotLight3);
-  // scene.add(lightHelper1, lightHelper2, lightHelper3);
-
   tween(spotLight1);
   tween(spotLight2);
   tween(spotLight3);
 
   // Reduce the intensity of the ambient light
-  const ambientLight = new THREE.AmbientLight(0x444444, 1.8);
+  const ambientLight = new THREE.AmbientLight(0x444444, 1.5);
   scene.add(ambientLight);
 
   const ambientLight2ForTest = new THREE.AmbientLight(0x404040, 1);
   scene.add(ambientLight2ForTest);
 }
 
-function createSpotlight(color) {
-  const newObj = new THREE.SpotLight(color, 1);
+function createSpotlight(color, intensity) {
+  const newObj = new THREE.SpotLight(color, intensity);
   newObj.castShadow = true;
   newObj.angle = 0.7;
   newObj.penumbra = 0.7;
