@@ -10,6 +10,7 @@ let group, cameraTarget;
 let camera;
 let canvas;
 let businessCard;
+const initialCardTilt = -Math.PI / 8; // 22.5 degrees
 
 // function adjustForMobileView() {
 //   const canvasElement = document.getElementById("canvas");
@@ -27,7 +28,7 @@ function init() {
   group.position.set(0, 150, -250);
 
   businessCard = createBusinessCard(container);
-  businessCard.rotation.x = -Math.PI / 8; // Tilt the card backwards by 22.5 degrees
+  businessCard.rotation.x = initialCardTilt;
   businessCard.scale.set(20, 20, 20);
   group.add(businessCard);
   scene = createScene(businessCard);
